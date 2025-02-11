@@ -1,0 +1,94 @@
+/* Modal Background */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* Modal Box */
+  .modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-in-out;
+  }
+  
+  /* Close Button */
+  .close-btn {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .close-btn:hover {
+    color: red;
+  }
+  
+  /* Input Fields */
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  input:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Authentication Button */
+  .auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 6px;
+    transition: 0.3s ease;
+  }
+  
+  .auth-btn:hover {
+    background: #0056b3;
+  }
+  
+  /* Switch Between Login & Signup */
+  .modal-content p span {
+    cursor: pointer;
+    color: #007BFF;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+  
+  .modal-content p span:hover {
+    color: #0056b3;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  

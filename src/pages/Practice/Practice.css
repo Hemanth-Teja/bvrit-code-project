@@ -1,0 +1,124 @@
+.practice {
+  text-align: center;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+  background-color: #ffffff; /* Light background */
+  color: #1e1e1e; /* Dark text */
+  min-height: 100vh;
+}
+
+/* Categories Section */
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.category-btn {
+  padding: 8px 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  background: #f8f9fa; /* Light grey button */
+  color: #333; /* Dark text */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: 14px;
+}
+
+.category-btn:hover,
+.category-btn.active {
+  background: #ffb800;
+  color: black;
+  font-weight: bold;
+}
+
+/* Table Styling */
+.problems-table {
+  width: 90%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background: #ffffff; /* White table */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header */
+.problems-table thead {
+  background-color: #f5f5f5;
+}
+
+.problems-table th {
+  padding: 12px;
+  font-size: 14px;
+  color: #1e1e1e;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Table Rows */
+.problems-table tbody tr {
+  background-color: #ffffff; /* White background */
+  transition: background 0.3s ease-in-out;
+}
+
+/* Alternating Row Colors */
+.problems-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for alternate rows */
+}
+
+/* Hover Effect */
+.problems-table tbody tr:hover {
+  background-color: rgba(255, 184, 0, 0.2); /* LeetCode-like yellow hover effect */
+  cursor: pointer;
+}
+
+/* Table Cells */
+.problems-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+  text-align: left;
+  color: #1e1e1e; /* Dark text */
+}
+
+/* Problem Title */
+.problem-link {
+  text-decoration: none;
+  color: black; /* LeetCode blue */
+  font-weight: 500;
+}
+
+.problem-link:hover {
+  color: #df0e0e; /* LeetCode hover */
+}
+
+/* Difficulty Colors */
+.difficulty {
+  font-weight: bold;
+}
+
+.difficulty.easy {
+  color: #4caf50; /* Green */
+}
+
+.difficulty.medium {
+  color: #ff9800; /* Orange */
+}
+
+.difficulty.hard {
+  color: #f44336; /* Red */
+}
+
+/* Solved Problem Tick */
+.solved-icon {
+  color: #4caf50;
+  font-size: 18px;
+}
+tr td{
+  background-color: #d1d5db;
+  color: #1e1e1e;
+}

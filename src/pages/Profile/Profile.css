@@ -1,0 +1,100 @@
+/* Profile Container */
+.profile-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 25px;
+  background: white; /* LeetCode-like white background */
+  color: #1e1e1e; /* Dark text */
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* User Info Section */
+.profile-details {
+  background: #f5f5f5; /* Light gray for subtle contrast */
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.user-info p {
+  font-size: 16px;
+  margin: 10px 0;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Table Styles */
+.problems-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e0e0e0; /* Thick table border */
+}
+
+.problems-table th, .problems-table td {
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.problems-table th {
+  background: #f5f5f5;
+  font-weight: bold;
+  color: #1e1e1e;
+  border-bottom: 2px solid #d1d5db;
+}
+
+.problems-table tbody tr {
+  transition: background 0.3s ease-in-out;
+}
+
+/* Alternating Row Colors */
+.problems-table tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Hover Effect */
+.problems-table tbody tr:hover {
+  background: rgba(255, 184, 0, 0.2); /* LeetCode yellow hover */
+  cursor: pointer;
+}
+
+/* View Button */
+.view-btn {
+  background: #ffb800; /* LeetCode yellow */
+  color: black;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.view-btn:hover {
+  background: #e6a700;
+}
+
+/* Logout Button */
+.logout-btn {
+  background: #ff4d4d;
+  border: none;
+  padding: 12px 20px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  margin-top: 20px;
+}
+
+.logout-btn:hover {
+  background: #e04343;
+}
