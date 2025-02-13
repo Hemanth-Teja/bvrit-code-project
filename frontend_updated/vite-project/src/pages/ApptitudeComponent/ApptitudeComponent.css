@@ -1,0 +1,79 @@
+.aptitude-fullscreen {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1c1e26;
+}
+
+.question-box {
+    width: 50%;
+    background: #2c2f38;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid #3a3d45;
+}
+
+.question-box h2 {
+    font-size: 24px;
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option-button {
+    background: #3a3d45;
+    color: white;
+    border: 1px solid #5a5e66;
+    padding: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.option-button:hover {
+    background: #ffcc00;
+    color: black;
+}
+
+.selected {
+    background: #ffcc00;
+    color: black;
+    font-weight: bold;
+}
+
+.submit-button {
+    margin-top: 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.submit-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.correct {
+    background: #28a745 !important;
+}
+
+.error-text {
+    margin-top: 15px;
+    color: red;
+    font-size: 16px;
+}

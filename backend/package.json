@@ -12,9 +12,18 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
+<<<<<<< HEAD
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+=======
+    "body-parser": "^1.20.3",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security",
+>>>>>>> 1ad8ec6 (frontend_updated file added)
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.0"
   },

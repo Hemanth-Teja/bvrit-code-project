@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// backend/models/userModel.js
+>>>>>>> 1ad8ec6 (frontend_updated file added)
 import mongoose from "mongoose";
 
 const LabSchema = new mongoose.Schema({
@@ -14,8 +18,14 @@ const StudentSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   contact_no: { type: String, required: true },
   parent_contact_no: { type: String, required: true },
+<<<<<<< HEAD
   aptitude_solved: { type: Number, default: 0 },
   dsa_solved: { type: Number, default: 0 },
+=======
+
+  aptitude_solved: { type: [Number], required: false, default: [] },  // Changed to array
+  dsa_solved: { type: [Number], required: false, default: [] },       // Changed to array
+>>>>>>> 1ad8ec6 (frontend_updated file added)
   labs: { type: LabSchema, default: {} }
 });
 
@@ -49,6 +59,10 @@ const CollegeSchema = new mongoose.Schema({
 });
 
 const College = mongoose.model('College', CollegeSchema);
+<<<<<<< HEAD
 
 export default College;
 
+=======
+export default College;
+>>>>>>> 1ad8ec6 (frontend_updated file added)

@@ -12,6 +12,12 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+<<<<<<< HEAD
 app.use("/api/questions", questionRoutes);
 
 app.listen(5000, () => console.log("🚀 Server running on port 5000"));
+=======
+app.use("/api/data", questionRoutes);
+
+app.listen(5000, () => console.log(" Server running on port 5000"));
+>>>>>>> 1ad8ec6 (frontend_updated file added)

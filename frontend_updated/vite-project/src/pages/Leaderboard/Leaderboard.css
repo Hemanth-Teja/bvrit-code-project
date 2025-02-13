@@ -1,0 +1,131 @@
+/* Leaderboard Container */
+.leaderboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Filters */
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 20px;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: rgba(27, 90, 226, 0.15); /* Glass effect */
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 255, 0.2);
+    z-index: 10;
+    margin-bottom: 10px;
+  }
+  
+  /* Label Styling */
+  .filters label {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(33, 29, 29);
+    text-shadow: 0 1px 2px rgba(51, 95, 188, 0.3);
+  }
+  
+  /* Dropdown (Select) Styling */
+  .filters select {
+    padding: 8px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(23, 75, 216, 0.5);
+    color: white;
+    backdrop-filter: blur(8px);
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Dropdown Hover & Focus */
+  .filters select:hover,
+  .filters select:focus {
+    background: rgba(23, 75, 216, 0.5);
+    transform: scale(1.05);
+    font-weight: bold;
+  }
+  
+  /* Dropdown Options */
+  .filters select option {
+    background: white;
+    color: black;
+  }
+  
+  
+  /* Table Container */
+  .table-container {
+    width: 100%;
+    max-height: 74vh; /* Scrollable */
+    overflow-y: auto;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    background: rgba(27, 90, 226, 0.15);
+  }
+  
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Fixed Table Header */
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: #4285F4;
+    color: white;
+    z-index: 10;
+  }
+  
+  /* Header Row Styling */
+  th {
+    padding: 12px;
+    text-align: left;
+    background-color: #4285F4;
+    color: white;
+    position: sticky;
+    top: 0;
+  }
+  
+  /* Body Rows */
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Scrollbar */
+  .table-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .table-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  .table-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  /* Hover Effect */
+  tbody tr:hover {
+    background-color:rgb(109, 88, 88) ;
+    cursor: pointer;
+  }

@@ -1,0 +1,176 @@
+/* Full Page Layout */
+.practice-container {
+    display: flex;
+    height: 90vh;
+    width: 100%;
+    background-color: #f8f9fa;
+  }
+  
+  /* Left Sidebar (Fixed, 20% Width) */
+  .left-sidebar {
+    width: 20%;
+    background: rgba(27, 90, 226, 0.15); /* Glass effect */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .left-sidebar button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #ffffff;
+    cursor: pointer;
+    color: black;
+
+  }
+  
+  .left-sidebar button.active {
+    background-color: #4285F4;
+    color: white;
+
+  }
+
+  
+  /* Right Section (80% Width) */
+  .right-section {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  /* Categories Container */
+  .categories-container {
+    position: sticky;
+    top: 0;
+    margin-bottom: 10px;
+    z-index: 10;
+    border-bottom: 2px solid #ddd;
+    border-radius: 10px;
+    background: rgba(27, 90, 226, 0.15); /* Glass effect */
+
+  }
+  
+  /* Categories Scroll */
+  .categories-scroll {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+ 
+  }
+  
+  .categories-scroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+  }
+  
+  .categories-scroll button {
+    padding: 8px 15px;
+    border: none;
+    font-size: 14px;
+    border-radius: 20px;
+    background-color: white;
+
+    cursor: pointer;
+    color:rgb(45, 42, 39);
+  }
+
+  
+  .categories-scroll button.active {
+    background-color: #4285F4;
+    color: white;
+  }
+  
+  /* Problems Container (Scrolls Only If Needed) */
+  .problems-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  /* Problems Table */
+  .problems-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .problems-container th, .problems-container td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .problems-container th {
+    background-color: #4285F4;
+    color: white;
+  }
+  
+  /* Difficulty Level Colors */
+  .difficulty-easy {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .difficulty-medium {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  .difficulty-hard {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Solved Tick Mark */
+  .solved {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .solved::after {
+    content: " ✔";
+  }
+  
+  /* Not Attempted (Leave Blank) */
+  .not-attempted {
+    color: transparent; /* Makes text invisible */
+  }
+  
+  /* Scrollbar for Problems Container */
+  .problems-container::-webkit-scrollbar {
+    width: 8px;
+    display:none;
+  }
+  
+  .problems-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .problems-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  .problems-container::-webkit-scrollbar-thumb:hover {
+    background-color:rgb(253, 248, 248) ;
+  }
+  
+  /* Hover Effect */
+  .problems-container tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  .cat-hover:hover{
+    background-color:rgb(253, 248, 248) ;
+    color:rgb(0, 0, 0);
+  }
