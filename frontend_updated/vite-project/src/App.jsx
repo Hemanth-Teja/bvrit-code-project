@@ -1,40 +1,53 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Practice from "./pages/Practice/Practice";
 import Leaderboard from "./pages/Leaderboard/Leaderboard";
 import Profile from "./pages/Profile/Profile";
 import CodeEditor from "./pages/CodeEditor/CodeEditor";
-import ApptitudeComponent from "./pages/ApptitudeComponent/ApptitudeComponent";
+import AptitudeComponent from "./pages/ApptitudeComponent/ApptitudeComponent";
 import Entry from "./pages/Entry/Entry";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AddQuestions from "./pages/AddQuestions/AddQuestions";  // Import AddQuestions
 import "./App.css";
-
+import { useEffect,useState } from "react";
 const isAdmin = true; // Change this dynamically based on authentication
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [isAdmin, setisAdmin] = useState(false);
+ 
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem("token");
+  //   setToken(storedToken);
+  // }, []);
+
   return (
     <Router>
-      <Navbar />
-      <div className="content">
+      {(localStorage.getItem("token")) ? (
+        <>
+          <Navbar />
+          <Routes>
+            <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+            <Route path="/practice" element={<PrivateRoute element={<Practice />} />} />
+            <Route path="/leaderboard" element={<PrivateRoute element={<Leaderboard />} />} />
+            <Route path="/profile" element={<PrivateRoute element={<Profile setToken={setToken} setisAdmin={setisAdmin} />} />} />
+            <Route path="/compiler/:id" element={<PrivateRoute element={<CodeEditor />} />} />
+            <Route path="/submission/:id" element={<PrivateRoute element={<AptitudeComponent />} />} />
+            <Route path="/add-questions" element={<AddQuestions />} />
+            <Route path="*" element={<Navigate to="/home" />} />
+          </Routes>
+        </>
+      ) : (
         <Routes>
-          <Route path="/" element={<Entry />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/practice" element={<Practice />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/compiler/:id" element={<CodeEditor />} />
-            <Route path="/submission/:id" element={<ApptitudeComponent />} />
-            {isAdmin && <Route path="/add-questions" element={<AddQuestions />} />}  Admin Only
-          </Route>
+          <Route path="/" element={<Entry token={token} setToken={setToken}  isAdmin={isAdmin} setisAdmin={setisAdmin}/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </div>
+      )}
     </Router>
   );
-}
+};
 
 export default App;

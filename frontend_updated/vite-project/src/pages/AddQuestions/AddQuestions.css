@@ -1,91 +1,235 @@
 .add-questions-container {
-    max-width: 600px;
-    margin: 40px auto;
-    background: #222;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  }
-  
-  h2, h3 {
-    color: #ffcc00;
-  }
-  
-  .selection {
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1c23 0%, #23272f 100%);
+    color: #e4e6eb;
+}
+
+.add-questions-container h2 {
+    color: #6366f1;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Selection Section */
+.selection {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .selection select {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    background: #444;
-    color: white;
+}
+.selection option{
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.question-type-option {
+    background-color: #e4e6eb;
+    color: black;
+}
+
+.question-type-option:hover {
+    background-color: black;
+    color: #e4e6eb;
+}
+
+
+
+.selection label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e4e6eb;
+    margin-right: 1rem;
+}
+
+.selection select {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
     border: none;
-  }
-  
-  .question-form {
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e4e6eb;
+    backdrop-filter: blur(8px);
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.selection select:hover {
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+}
+
+.selection select:focus {
+    border: 2px solid #6366f1;
+}
+
+/* Question Form */
+.question-form {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-  }
-  
-  .question-form input, 
-  .question-form textarea {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.question-form input,
+.question-form select,
+.question-form textarea {
     width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #333;
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e4e6eb;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.question-form input:focus,
+.question-form select:focus,
+.question-form textarea:focus {
+    border-color: #6366f1;
+    outline: none;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.question-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.question-form button {
+    background: #6366f1;
     color: white;
-  }
-  
-  .question-form button {
-    padding: 10px;
-    background: #ffcc00;
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 1rem 2rem;
     border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-  
-  .question-form button:hover {
-    background: #e6b800;
-  }
-  
-  .delete-section {
-    margin-top: 20px;
-  }
-  
-  .delete-section input {
-    width: calc(100% - 90px);
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #333;
+    transition: all 0.3s ease;
+}
+
+.question-form button:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+}
+
+/* Delete Section */
+.delete-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.delete-section-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.delete-section h3 {
+    color: #ef4444;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.delete-button {
+    width:25%;
+}
+
+.delete-section input {
+    width: calc(100% - 120px);
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e4e6eb;
+    margin-right: 1rem;
+}
+
+.delete-section button {
+    background: #ef4444;
     color: white;
-  }
-  
-  .delete-section button {
-    padding: 10px;
-    background: red;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 1rem 2rem;
     border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-  
-  .delete-section button:hover {
-    background: darkred;
-  }
+    transition: all 0.3s ease;
+}
+
+.delete-section button:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+/* Loading State */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #6366f1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .add-questions-container {
+        padding: 1rem;
+    }
+
+    .delete-section input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1rem;
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .delete-section button {
+        width: 100%;
+    }
+    .delete-section-input{
+        flex-direction: column;
+    }
+    .question-form option{
+        color: #171717;
+    }
+    .question-form{
+        padding: 14px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question-form, .delete-section {
+    animation: fadeIn 0.5s ease-out;
+}
+textarea{
+    font-family:'Inter', system-ui, sans-serif;
+}
   

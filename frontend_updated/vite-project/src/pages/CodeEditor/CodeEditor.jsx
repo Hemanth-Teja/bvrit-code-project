@@ -5,7 +5,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-dracula";
 import "./CodeEditor.css";
 
 const CodeEditor = () => {
@@ -87,63 +87,104 @@ const CodeEditor = () => {
     }
   };
 
-  if (!problem) return <h2>Loading problem...</h2>;
+  if (!problem) {
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+        <p>Loading problem...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="code-editor-container">
       <div className="problem-panel">
         <h2>{problem.title}</h2>
-        <p><strong>Description:</strong> {problem.description}</p>
-        <p><strong>Category:</strong> {problem.category}</p>
-        <p><strong>Difficulty:</strong> {problem.difficulty}</p>
-        <h3>Example</h3>
-        <pre><strong>Input:</strong> {problem.exampleInput}</pre>
-        <pre><strong>Output:</strong> {problem.exampleOutput}</pre>
-        <h3>Explanation</h3>
-        <p>{problem.explanation}</p>
+        <div className="category-difficulty">
+          <span>
+            <i className="fas fa-folder"></i> {problem.category}
+          </span>
+          <span className={`difficulty-${problem.difficulty.toLowerCase()}`}>
+            <i className="fas fa-signal"></i> {problem.difficulty}
+          </span>
+        </div>
+        
+        <div className="description-section">
+          <h3><i className="fas fa-info-circle"></i> Description</h3>
+          <p>{problem.description}</p>
+        </div>
+
+        <div className="example-section">
+          <h3><i className="fas fa-lightbulb"></i> Example</h3>
+          <div className="example-box">
+            <div className="input-box">
+              <span>Input:</span>
+              <pre>{problem.exampleInput}</pre>
+            </div>
+            <div className="output-box">
+              <span>Output:</span>
+              <pre>{problem.exampleOutput}</pre>
+            </div>
+          </div>
+        </div>
+
+        <div className="explanation-section">
+          <h3><i className="fas fa-book"></i> Explanation</h3>
+          <p>{problem.explanation}</p>
+        </div>
       </div>
 
       <div className="editor-panel">
-        <label htmlFor="language">Select Language:</label>
-        <select id="language" value={language} onChange={(e) => setLanguage(e.target.value)}>
-          <option value="c">C</option>
-          <option value="cpp">C++</option>
-          <option value="java">Java</option>
-          <option value="python">Python</option>
-        </select>
+        <div className="language-selector">
+          <label htmlFor="language">
+            <i className="fas fa-code"></i> Select Language:
+          </label>
+          <select id="language" value={language} onChange={(e) => setLanguage(e.target.value)}>
+            <option className="language-option" value="c">C</option>
+            <option className="language-option" value="cpp">C++</option>
+            <option className="language-option" value="java">Java</option>
+            <option className="language-option" value="python">Python</option>
+          </select>
+        </div>
 
-        <AceEditor
-          mode={languageMap[language] || "java"}
-          theme="monokai"
-          value={code}
-          onChange={setCode}
-          fontSize={14}
-          width="100%"
-          height="300px"
-          showPrintMargin={false}
-          showGutter={true}
-          highlightActiveLine={true}
-          setOptions={{
-            enableBasicAutocompletion: true,
-            enableLiveAutocompletion: true,
-            enableSnippets: true,
-            tabSize: 4,
-          }}
-        />
+        <div className="editor-wrapper">
+          <AceEditor
+            mode={languageMap[language] || "java"}
+            theme="dracula"
+            value={code}
+            onChange={setCode}
+            fontSize={14}
+            width="100%"
+            height="400px"
+            showPrintMargin={false}
+            showGutter={true}
+            highlightActiveLine={true}
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+              tabSize: 4,
+            }}
+          />
+        </div>
 
         <div className="button-group">
-          <button onClick={() => executeCode(problem.exampleInput, problem.exampleOutput, false)}>
-            Run
+          <button className="run-btn" onClick={() => executeCode(problem.exampleInput, problem.exampleOutput, false)}>
+            <i className="fas fa-play"></i> Run Code
           </button>
-          <button onClick={() => executeCode(problem.submitInput, problem.submitOutput, true)}>
-            Submit
+          <button className="submit-btn" onClick={() => executeCode(problem.submitInput, problem.submitOutput, true)}>
+            <i className="fas fa-paper-plane"></i> Submit
           </button>
         </div>
 
         <div className="output-section">
-          <h3>Output:</h3>
+          <h3><i className="fas fa-terminal"></i> Output</h3>
           <pre>{output}</pre>
-          {submissionStatus && <p>{submissionStatus}</p>}
+          {submissionStatus && (
+            <p className={`status-message ${submissionStatus.includes("✅") ? "success" : "error"}`}>
+              {submissionStatus}
+            </p>
+          )}
         </div>
       </div>
     </div>

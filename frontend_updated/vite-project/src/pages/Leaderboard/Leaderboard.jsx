@@ -47,11 +47,12 @@ const Leaderboard = () => {
 
   return (
     <div className="leaderboard-container">
-      {/* Filter Options */}
       <div className="filters">
-        <label>Branch: </label>
+        <label className="filter-label">
+          <i className="fas fa-code-branch"></i> Branch:
+        </label>
         <select value={selectedBranch} onChange={handleBranchChange}>
-          <option value="All">All</option>
+          <option value="All">All Branches</option>
           <option value="CSE">CSE</option>
           <option value="IT">IT</option>
           <option value="AIDS">AIDS</option>
@@ -59,16 +60,17 @@ const Leaderboard = () => {
           <option value="CSD">CSD</option>
         </select>
 
-        <label>Year: </label>
+        <label className="filter-label">
+          <i className="fas fa-calendar-alt"></i> Year:
+        </label>
         <select value={selectedYear} onChange={handleYearChange}>
-          <option value="All">All</option>
+          <option value="All">All Years</option>
           <option value="2022">2022</option>
           <option value="2023">2023</option>
           <option value="2024">2024</option>
         </select>
       </div>
 
-      {/* Table Container */}
       <div className="table-container">
         <table>
           <thead>
@@ -97,74 +99,26 @@ const Leaderboard = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7">No data available</td>
-              </tr>
-            )} {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.rank}</td>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.branch}</td>
-                  <td>{student.year}</td>
-                  <td>{student.aptitude_solved}</td>
-                  <td>{student.dsa_solved}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">No data available</td>
-              </tr>
-            )} {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.rank}</td>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.branch}</td>
-                  <td>{student.year}</td>
-                  <td>{student.aptitude_solved}</td>
-                  <td>{student.dsa_solved}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">No data available</td>
-              </tr>
-            )} {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.rank}</td>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.branch}</td>
-                  <td>{student.year}</td>
-                  <td>{student.aptitude_solved}</td>
-                  <td>{student.dsa_solved}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">No data available</td>
-              </tr>
-            )} {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.rank}</td>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.branch}</td>
-                  <td>{student.year}</td>
-                  <td>{student.aptitude_solved}</td>
-                  <td>{student.dsa_solved}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">No data available</td>
+                <td colSpan="7" style={{ textAlign: 'center' }}>No data available</td>
               </tr>
             )}
-            
+            {rankedStudents.length > 0 ? (
+              rankedStudents.map((student) => (
+                <tr key={student.id}>
+                  <td>{student.rank}</td>
+                  <td>{student.id}</td>
+                  <td>{student.name}</td>
+                  <td>{student.branch}</td>
+                  <td>{student.year}</td>
+                  <td>{student.aptitude_solved}</td>
+                  <td>{student.dsa_solved}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center' }}>No data available</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -1,23 +1,11 @@
-<<<<<<< HEAD
 import Question from "../models/questionModel.js";
-
-
-export const addQuestion = async (req, res) => {
-  try {
-    const question = await Question.create(req.body);
-    res.status(201).json(question);
-  } catch (error) {
-    res.status(400).json({ message: "Failed to add question", error });
-  }
-};
-
-export const getQuestions = async (req, res) => {
-  const questions = await Question.find({});
-  res.json(questions);
-=======
 import College from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+
+
+
 export const getUserData = async (req, res) => {
   try {
       const colleges = await College.find();
@@ -194,15 +182,15 @@ export const updateApptitude = async (req, res) => {
             return res.status(404).json({ message: "Student not found." });
         }
 
-        // ✅ Ensure apptitude_solved is initialized
-        if (!Array.isArray(student.apptitude_solved)) {
-            student.apptitude_solved = [];
+        // ✅ Ensure aptitude_solved is initialized
+        if (!Array.isArray(student.aptitude_solved)) {
+            student.aptitude_solved = [];
         }
 
-        console.log("Current apptitude_solved:", student.apptitude_solved);
+        console.log("Current aptitude_solved:", student.aptitude_solved);
 
-        if (!student.apptitude_solved.includes(problemId)) {
-            student.apptitude_solved.push(problemId);
+        if (!student.aptitude_solved.includes(problemId)) {
+            student.aptitude_solved.push(problemId);
         } else {
             return res.status(400).json({ message: "Problem already solved." });
         }
@@ -211,7 +199,7 @@ export const updateApptitude = async (req, res) => {
         await college.save();
 
         res.status(200).json({ 
-            message: "Problem added to apptitude_solved list successfully", 
+            message: "Problem added to aptitude_solved list successfully", 
             student: student
         });
 
@@ -219,5 +207,5 @@ export const updateApptitude = async (req, res) => {
         console.error("Error updating Apptitude_solved:", error);
         res.status(500).json({ message: "Failed to update Apptitude_solved", error: error.message });
     }
->>>>>>> 1ad8ec6 (frontend_updated file added)
+
 };

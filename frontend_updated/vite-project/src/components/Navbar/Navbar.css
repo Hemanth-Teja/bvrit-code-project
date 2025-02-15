@@ -6,11 +6,32 @@
   color: white;
   padding: 10px 20px;
   height:70px;
+  width:100%;
 }
+.navbar-small-device{
+  display: none;
+}
+
+@media(max-width:768px){
+  .navbar-small-device{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    color: white;
+    padding: 10px 20px;
+    height:70px;
+  }
+  .navbar{
+    display: none;
+  }
+}
+
 
 .navbar-logo {
   font-size: 24px;
   font-weight: bold;
+  color:#ffcc00;
 }
 
 .navbar-links {

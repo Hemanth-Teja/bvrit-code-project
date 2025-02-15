@@ -1,8 +1,24 @@
-# React + Vite
+# ALGO NEST - BVRIT Code Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive coding platform for BVRIT students to practice DSA and Aptitude questions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- DSA Practice Problems
+- Aptitude Questions
+- Code Editor with Multiple Language Support
+- Student Progress Tracking
+- Leaderboard System
+- User Authentication
+- Mobile Responsive Design
+
+## Tech Stack
+
+- Frontend: React.js with Vite
+- Backend: Node.js with Express
+- Database: MongoDB
+- Authentication: JWT
+
+## Installation
+
+1. Clone the repository: 

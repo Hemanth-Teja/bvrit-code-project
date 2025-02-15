@@ -1,8 +1,9 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 
-const PrivateRoute = () => {
-  return <Outlet />; // Always allows access
+const PrivateRoute = ({ element }) => {
+  const token = localStorage.getItem("token");
+  return token ? element : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
