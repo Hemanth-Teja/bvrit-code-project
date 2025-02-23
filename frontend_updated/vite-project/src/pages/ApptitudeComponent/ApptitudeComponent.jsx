@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./ApptitudeComponent.css";
 import axios from "axios";
 
-const ApptitudeComponent=() => {
+const ApptitudeComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [question, setQuestion] = useState(null);
@@ -18,15 +18,15 @@ const ApptitudeComponent=() => {
         const response = await axios.get(
           `http://localhost:5000/api/update/aptitude/question/${id}`
         );
-        
+
         // Convert options to array if stored as string
-        const optionsArray = Array.isArray(response.data.options) 
-          ? response.data.options 
-          : response.data.options.split(',').map(opt => opt.trim());
+        const optionsArray = Array.isArray(response.data.options)
+          ? response.data.options
+          : response.data.options.split(",").map((opt) => opt.trim());
 
         setQuestion({
           ...response.data,
-          options: optionsArray
+          options: optionsArray,
         });
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch question");
@@ -41,42 +41,50 @@ const ApptitudeComponent=() => {
 
   const handleSubmit = () => {
     if (!selectedOption) return;
-    
+
     const correct = selectedOption === question.correctAnswer;
     setIsCorrect(correct);
 
     if (correct) {
       // Update solved status in backend
-      axios.post('http://localhost:5000/api/questions/aptitude', { problemId: id }, {
-        headers: { Authorization: localStorage.getItem('token') }
-      })
-      .then(() => {
-        setTimeout(() => navigate("/practice"), 1500);
-      })
-      .catch(console.error);
+      axios
+        .post(
+          "http://localhost:5000/api/questions/aptitude",
+          { problemId: id },
+          { headers: { Authorization: localStorage.getItem("token") } }
+        )
+        .then(() => {
+          setTimeout(() => navigate("/practice"), 1500);
+        })
+        .catch((error) => {
+          console.error("Error updating aptitude_solved:", error);
+        });
     }
   };
 
-  if (loading) return (
-    <div className="loading-container">
-      <div className="loader"></div>
-      <p>Loading question...</p>
-    </div>
-  );
-  
-  if (error) return (
-    <div className="error-container">
-      <i className="fas fa-exclamation-circle"></i>
-      <p>{error}</p>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+        <p>Loading question...</p>
+      </div>
+    );
 
-  if (!question) return (
-    <div className="error-container">
-      <i className="fas fa-question-circle"></i>
-      <p>Question not found</p>
-    </div>
-  );
+  if (error)
+    return (
+      <div className="error-container">
+        <i className="fas fa-exclamation-circle"></i>
+        <p>{error}</p>
+      </div>
+    );
+
+  if (!question)
+    return (
+      <div className="error-container">
+        <i className="fas fa-question-circle"></i>
+        <p>Question not found</p>
+      </div>
+    );
 
   return (
     <div className="aptitude-container">
@@ -111,19 +119,21 @@ const ApptitudeComponent=() => {
           onClick={handleSubmit}
           disabled={!selectedOption}
         >
-          <i className={`fas ${isCorrect === null ? 'fa-paper-plane' : (isCorrect ? 'fa-check' : 'fa-times')}`}></i>
-          {isCorrect === null ? 'Submit Answer' : (isCorrect ? 'Correct!' : 'Try Again')}
+          <i className={`fas ${isCorrect === null ? "fa-paper-plane" : isCorrect ? "fa-check" : "fa-times"}`}></i>
+          {isCorrect === null ? "Submit Answer" : isCorrect ? "Correct!" : "Try Again"}
         </button>
 
         {isCorrect !== null && (
-          <div className={`feedback-section ${isCorrect ? 'success' : 'error'}`}>
+          <div className={`feedback-section ${isCorrect ? "success" : "error"}`}>
             {isCorrect ? (
               <>
                 <p className="success-text">
                   <i className="fas fa-check-circle"></i> Excellent! That's the correct answer!
                 </p>
                 <div className="explanation">
-                  <h3><i className="fas fa-lightbulb"></i> Explanation</h3>
+                  <h3>
+                    <i className="fas fa-lightbulb"></i> Explanation
+                  </h3>
                   <p>{question.explanation}</p>
                 </div>
               </>
@@ -137,6 +147,6 @@ const ApptitudeComponent=() => {
       </div>
     </div>
   );
-}
+};
 
 export default ApptitudeComponent;

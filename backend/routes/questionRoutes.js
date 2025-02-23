@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/userdata",getUserData);
 router.get("/userdata/:branch", getBranchData);
 router.post("/dsa",updateDsa);
-router.post("/apptitude",updateApptitude);
+router.post("/aptitude",updateApptitude);
 
 export default router;

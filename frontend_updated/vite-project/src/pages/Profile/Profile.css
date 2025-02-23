@@ -308,3 +308,55 @@
     color: white;
     box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);}
 }
+.problem-section {
+    margin-bottom: 20px;
+  }
+  
+  .problem-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .problem-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .problem-id {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .problem-title {
+    font-size: 16px;
+  }
+  
+  .difficulty-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .difficulty-badge.easy {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .difficulty-badge.medium {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  .difficulty-badge.hard {
+    background-color: #f8d7da;
+    color: #721c24;
+  }.no-questions-solved{
+    border-radius: 20px;
+margin-top:10px;
+  }

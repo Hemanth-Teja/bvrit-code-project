@@ -114,120 +114,116 @@ export const getBranchData = async (req, res) => {
 };
 export const updateDsa = async (req, res) => {
   try {
-      const { problemId } = req.body; // Get problem ID from the request body
-      const token = req.headers.authorization; // Get token from headers
+    const { problemId } = req.body; // Get problem ID from the request body
+    const token = req.headers.authorization; // Get token from headers
 
-      if (!token) {
-          return res.status(401).json({ message: "Not authorized, no token provided" });
-      }
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized, no token provided" });
+    }
 
-      if (!problemId) {
-          return res.status(400).json({ message: "Problem ID is required" });
-      }
+    if (!problemId) {
+      return res.status(400).json({ message: "Problem ID is required" });
+    }
 
-      // Verify the token and extract student details
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const { email, branch, year } = decoded;
+    // Verify the token and extract student details
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { email, branch, year } = decoded;
 
-      // Fetch the college document
-      const college = await College.findOne();
-      if (!college) {
-          return res.status(404).json({ message: "No college data found." });
-      }
+    // Fetch the college document
+    const college = await College.findOne();
+    if (!college) {
+      return res.status(404).json({ message: "No college data found." });
+    }
 
-      // Find the student in the college database
-      const yearStr = String(year);
-      const studentsArray = college.branches.get(branch)?.years.get(yearStr)?.students;
-      
-      if (!studentsArray) {
-          return res.status(404).json({ message: "Branch or year not found." });
-      }
+    // Find the student in the college database
+    const yearStr = String(year);
+    const studentsArray = college.branches.get(branch)?.years.get(yearStr)?.students;
 
-      const student = studentsArray.find(s => s.email === email);
-      if (!student) {
-          return res.status(404).json({ message: "Student not found." });
-      }
+    if (!studentsArray) {
+      return res.status(404).json({ message: "Branch or year not found." });
+    }
 
-      // Update dsa_solved array
-      if (!student.dsa_solved.includes(problemId)) {
-          student.dsa_solved.push(problemId);
-      } else {
-          return res.status(400).json({ message: "Problem already solved." });
-      }
+    const student = studentsArray.find((s) => s.email === email);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found." });
+    }
 
-      // Save the updated college document
-      await college.save();
+    // Update dsa_solved array
+    if (!student.dsa_solved.includes(problemId)) {
+      student.dsa_solved.push(problemId);
+    } else {
+      return res.status(400).json({ message: "Problem already solved." });
+    }
 
-      res.status(200).json({ 
-          message: "Problem added to dsa_solved list successfully", 
-          student: student
-      });
+    // Save the updated college document
+    await college.save();
 
+    res.status(200).json({
+      message: "Problem added to dsa_solved list successfully",
+      student: student,
+    });
   } catch (error) {
-      console.error("Error updating dsa_solved:", error);
-      res.status(500).json({ message: "Failed to update dsa_solved", error: error.message });
+    console.error("Error updating dsa_solved:", error);
+    res.status(500).json({ message: "Failed to update dsa_solved", error: error.message });
   }
 };
 export const updateApptitude = async (req, res) => {
-    try {
-        const { problemId } = req.body; // Get problem ID from the request body
-        const token = req.headers.authorization; // Get token from headers
+  try {
+    const { problemId } = req.body; // Get problem ID from the request body
+    const token = req.headers.authorization; // Get token from headers
 
-        if (!token) {
-            return res.status(401).json({ message: "Not authorized, no token provided" });
-        }
-
-        if (!problemId) {
-            return res.status(400).json({ message: "Problem ID is required" });
-        }
-
-        // Verify the token and extract student details
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const { email, branch, year } = decoded;
-
-        // Fetch the college document
-        const college = await College.findOne();
-        if (!college) {
-            return res.status(404).json({ message: "No college data found." });
-        }
-
-        // Find the student in the college database
-        const yearStr = String(year);
-        const studentsArray = college.branches.get(branch)?.years.get(yearStr)?.students;
-
-        if (!studentsArray) {
-            return res.status(404).json({ message: "Branch or year not found." });
-        }
-
-        const student = studentsArray.find(s => s.email === email);
-        if (!student) {
-            return res.status(404).json({ message: "Student not found." });
-        }
-
-        // ✅ Ensure aptitude_solved is initialized
-        if (!Array.isArray(student.aptitude_solved)) {
-            student.aptitude_solved = [];
-        }
-
-        console.log("Current aptitude_solved:", student.aptitude_solved);
-
-        if (!student.aptitude_solved.includes(problemId)) {
-            student.aptitude_solved.push(problemId);
-        } else {
-            return res.status(400).json({ message: "Problem already solved." });
-        }
-
-        // Save the updated college document
-        await college.save();
-
-        res.status(200).json({ 
-            message: "Problem added to aptitude_solved list successfully", 
-            student: student
-        });
-
-    } catch (error) {
-        console.error("Error updating Apptitude_solved:", error);
-        res.status(500).json({ message: "Failed to update Apptitude_solved", error: error.message });
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized, no token provided" });
     }
 
+    if (!problemId) {
+      return res.status(400).json({ message: "Problem ID is required" });
+    }
+
+    // Verify the token and extract student details
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { email, branch, year } = decoded;
+
+    // Fetch the college document
+    const college = await College.findOne();
+    if (!college) {
+      return res.status(404).json({ message: "No college data found." });
+    }
+
+    // Find the student in the college database
+    const yearStr = String(year);
+    const studentsArray = college.branches.get(branch)?.years.get(yearStr)?.students;
+
+    if (!studentsArray) {
+      return res.status(404).json({ message: "Branch or year not found." });
+    }
+
+    const student = studentsArray.find((s) => s.email === email);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found." });
+    }
+
+    // Ensure aptitude_solved is initialized
+    if (!Array.isArray(student.aptitude_solved)) {
+      student.aptitude_solved = [];
+    }
+
+    // Update aptitude_solved array
+    if (!student.aptitude_solved.includes(problemId)) {
+      student.aptitude_solved.push(problemId);
+    } else {
+      return res.status(400).json({ message: "Problem already solved." });
+    }
+
+    // Save the updated college document
+    await college.save();
+
+    res.status(200).json({
+      message: "Problem added to aptitude_solved list successfully",
+      student: student,
+    });
+  } catch (error) {
+    console.error("Error updating aptitude_solved:", error);
+    res.status(500).json({ message: "Failed to update aptitude_solved", error: error.message });
+  }
 };
