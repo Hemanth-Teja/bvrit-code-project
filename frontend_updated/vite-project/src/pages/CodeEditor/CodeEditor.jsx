@@ -18,6 +18,37 @@ const CodeEditor = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState("");
 
+  const getDefaultCode = (lang) => {
+    switch (lang) {
+      case 'java':
+        return `public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}`;
+      case 'python':
+        return `# Write your code here
+`;
+      case 'c':
+        return `#include <stdio.h>
+
+int main() {
+    // Write your code here
+    return 0;
+}`;
+      case 'cpp':
+        return `#include <iostream>
+using namespace std;
+
+int main() {
+    // Write your code here
+    return 0;
+}`;
+      default:
+        return '// Write your code here\n';
+    }
+  };
+
   useEffect(() => {
     const fetchProblem = async () => {
       try {
@@ -37,12 +68,13 @@ const CodeEditor = () => {
           },
         };
         setProblem(response.data);
+        setCode(getDefaultCode(language));
       } catch (error) {
         console.error("Error fetching problem:", error);
       }
     };
     fetchProblem();
-  }, [id]);
+  }, [id, language]);
 
   const languageMap = {
     c: "c",
@@ -85,6 +117,12 @@ const CodeEditor = () => {
       console.error("Execution error:", error);
       setOutput("Error executing code");
     }
+  };
+
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    setLanguage(newLanguage);
+    setCode(getDefaultCode(newLanguage));
   };
 
   if (!problem) {
@@ -139,7 +177,7 @@ const CodeEditor = () => {
           <label htmlFor="language">
             <i className="fas fa-code"></i> Select Language:
           </label>
-          <select id="language" value={language} onChange={(e) => setLanguage(e.target.value)}>
+          <select id="language" value={language} onChange={handleLanguageChange}>
             <option className="language-option" value="c">C</option>
             <option className="language-option" value="cpp">C++</option>
             <option className="language-option" value="java">Java</option>
