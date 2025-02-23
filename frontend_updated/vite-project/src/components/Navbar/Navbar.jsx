@@ -9,7 +9,7 @@ import { FaUser } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const isAdmin = true; // Change dynamically based on authentication
+  const isAdmin = false; // Change dynamically based on authentication
   const navigate = useNavigate();
 
   const handleLogout = () => {

@@ -1,49 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Leaderboard.css";
-
-const dummyStudents = [
-  { id: "101", name: "Alice", branch: "CSE", year: "2022", aptitude_solved: 30, dsa_solved: 50 },
-  { id: "102", name: "Bob", branch: "IT", year: "2023", aptitude_solved: 25, dsa_solved: 40 },
-  { id: "103", name: "Charlie", branch: "AIDS", year: "2022", aptitude_solved: 20, dsa_solved: 35 },
-  { id: "104", name: "David", branch: "AIML", year: "2024", aptitude_solved: 40, dsa_solved: 55 },
-  { id: "105", name: "Eve", branch: "CSD", year: "2023", aptitude_solved: 10, dsa_solved: 25 },
-  { id: "106", name: "Frank", branch: "CSE", year: "2022", aptitude_solved: 35, dsa_solved: 45 },
-  { id: "107", name: "Grace", branch: "IT", year: "2024", aptitude_solved: 15, dsa_solved: 30 },
-];
 
 const Leaderboard = () => {
   const [selectedBranch, setSelectedBranch] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const rankStudents = (students) => {
-    return students
-      .map((student) => ({
-        ...student,
-        totalSolved: student.aptitude_solved + student.dsa_solved,
-      }))
-      .sort((a, b) => b.totalSolved - a.totalSolved)
-      .map((student, index) => ({ ...student, rank: index + 1 }));
+  useEffect(() => {
+    fetchStudents();
+  }, [selectedBranch, selectedYear, currentPage]);
+
+  const fetchStudents = async () => {
+    try {
+      setLoading(true);
+      let endpoint = `http://localhost:5000/api/students?page=${currentPage}&limit=10`;
+
+      if (selectedBranch !== "All") {
+        endpoint = `http://localhost:5000/api/students/branch/${selectedBranch}?page=${currentPage}&limit=10`;
+      } else if (selectedYear !== "All") {
+        endpoint = `http://localhost:5000/api/students/year/${selectedYear}?page=${currentPage}&limit=10`;
+      }
+
+      const response = await axios.get(endpoint);
+      setStudents(response.data.students);
+      setTotalPages(response.data.totalPages);
+      setError(null);
+    } catch (err) {
+      setError("Failed to fetch students data");
+      console.error("Error fetching students:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleBranchChange = (event) => {
-    setSelectedBranch(event.target.value);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value);
+  const Pagination = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="pagination">
+        <button 
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          Previous
+        </button>
+        
+        {pageNumbers.map(number => (
+          <button
+            key={number}
+            onClick={() => handlePageChange(number)}
+            className={`pagination-button ${currentPage === number ? 'active' : ''}`}
+          >
+            {number}
+          </button>
+        ))}
+        
+        <button 
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          Next
+        </button>
+      </div>
+    );
   };
 
-  let filteredStudents = dummyStudents;
-
-  if (selectedBranch !== "All") {
-    filteredStudents = filteredStudents.filter((student) => student.branch === selectedBranch);
+  if (loading) {
+    return <div className="loading">Loading...</div>;
   }
 
-  if (selectedYear !== "All") {
-    filteredStudents = filteredStudents.filter((student) => student.year === selectedYear);
+  if (error) {
+    return <div className="error">{error}</div>;
   }
-
-  const rankedStudents = rankStudents(filteredStudents);
 
   return (
     <div className="leaderboard-container">
@@ -51,7 +93,13 @@ const Leaderboard = () => {
         <label className="filter-label">
           <i className="fas fa-code-branch"></i> Branch:
         </label>
-        <select value={selectedBranch} onChange={handleBranchChange}>
+        <select 
+          value={selectedBranch} 
+          onChange={(e) => {
+            setSelectedBranch(e.target.value);
+            setCurrentPage(1);
+          }}
+        >
           <option value="All">All Branches</option>
           <option value="CSE">CSE</option>
           <option value="IT">IT</option>
@@ -63,7 +111,13 @@ const Leaderboard = () => {
         <label className="filter-label">
           <i className="fas fa-calendar-alt"></i> Year:
         </label>
-        <select value={selectedYear} onChange={handleYearChange}>
+        <select 
+          value={selectedYear} 
+          onChange={(e) => {
+            setSelectedYear(e.target.value);
+            setCurrentPage(1);
+          }}
+        >
           <option value="All">All Years</option>
           <option value="2022">2022</option>
           <option value="2023">2023</option>
@@ -85,27 +139,10 @@ const Leaderboard = () => {
             </tr>
           </thead>
           <tbody>
-            {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
+            {students.length > 0 ? (
+              students.map((student, index) => (
                 <tr key={student.id}>
-                  <td>{student.rank}</td>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.branch}</td>
-                  <td>{student.year}</td>
-                  <td>{student.aptitude_solved}</td>
-                  <td>{student.dsa_solved}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" style={{ textAlign: 'center' }}>No data available</td>
-              </tr>
-            )}
-            {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.rank}</td>
+                  <td>{(currentPage - 1) * 10 + index + 1}</td>
                   <td>{student.id}</td>
                   <td>{student.name}</td>
                   <td>{student.branch}</td>
@@ -121,6 +158,7 @@ const Leaderboard = () => {
             )}
           </tbody>
         </table>
+        <Pagination />
       </div>
     </div>
   );

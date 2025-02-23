@@ -20,6 +20,9 @@ const Practice = () => {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -29,8 +32,9 @@ const Practice = () => {
           ? "http://localhost:5000/api/update/dsa/questions"
           : "http://localhost:5000/api/update/aptitude/questions";
         
-        const response = await axios.get(endpoint);
-        setProblems(response.data);
+        const response = await axios.get(`${endpoint}?page=${currentPage}&limit=${itemsPerPage}`);
+        setProblems(response.data.questions);
+        setTotalPages(response.data.totalPages);
         setError(null);
       } catch (err) {
         setError("Failed to fetch questions. Please try again later.");
@@ -41,13 +45,56 @@ const Practice = () => {
     };
 
     fetchQuestions();
-  }, [selectedSection]);
+  }, [selectedSection, currentPage, itemsPerPage]);
 
   const categories = selectedSection === "DSA" ? dsaCategories : aptitudeCategories;
   
   const filteredProblems = selectedCategory === "All"
     ? problems
     : problems.filter((problem) => problem.category === selectedCategory);
+
+  // Add pagination handler
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Add Pagination component
+  const Pagination = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="pagination">
+        <button 
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          Previous
+        </button>
+        
+        {pageNumbers.map(number => (
+          <button
+            key={number}
+            onClick={() => handlePageChange(number)}
+            className={`pagination-button ${currentPage === number ? 'active' : ''}`}
+          >
+            {number}
+          </button>
+        ))}
+        
+        <button 
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          Next
+        </button>
+      </div>
+    );
+  };
 
   if (loading) {
     return (
@@ -146,6 +193,7 @@ const Practice = () => {
               ))}
             </tbody>
           </table>
+          <Pagination />
         </div>
       </div>
     </div>
