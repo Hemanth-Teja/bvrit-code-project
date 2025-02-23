@@ -8,12 +8,19 @@ const Leaderboard = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/questions/userdata");
-        setStudents(response.data);
+        setLoading(true);
+        const response = await axios.get(
+          `http://localhost:5000/api/questions/userdata?page=${currentPage}&limit=${itemsPerPage}`
+        );
+        setStudents(response.data.students);
+        setTotalPages(response.data.totalPages);
         setError(null);
       } catch (err) {
         setError("Failed to fetch leaderboard data");
@@ -24,17 +31,7 @@ const Leaderboard = () => {
     };
 
     fetchData();
-  }, []);
-
-  const rankStudents = (students) => {
-    return students
-      .map((student) => ({
-        ...student,
-        totalSolved: student.aptitude_solved + student.dsa_solved,
-      }))
-      .sort((a, b) => b.totalSolved - a.totalSolved)
-      .map((student, index) => ({ ...student, rank: index + 1 }));
-  };
+  }, [currentPage, itemsPerPage]);
 
   const handleBranchChange = (event) => {
     setSelectedBranch(event.target.value);
@@ -54,7 +51,48 @@ const Leaderboard = () => {
     filteredStudents = filteredStudents.filter((student) => student.year === selectedYear);
   }
 
-  const rankedStudents = rankStudents(filteredStudents);
+  // Pagination handler
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Pagination component
+  const Pagination = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          Previous
+        </button>
+
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => handlePageChange(number)}
+            className={`pagination-button ${currentPage === number ? "active" : ""}`}
+          >
+            {number}
+          </button>
+        ))}
+
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          Next
+        </button>
+      </div>
+    );
+  };
 
   if (loading) {
     return (
@@ -114,8 +152,8 @@ const Leaderboard = () => {
             </tr>
           </thead>
           <tbody>
-            {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
+            {filteredStudents.length > 0 ? (
+              filteredStudents.map((student) => (
                 <tr key={student.id}>
                   <td>{student.rank}</td>
                   <td>{student.id}</td>
@@ -136,6 +174,9 @@ const Leaderboard = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      <Pagination />
     </div>
   );
 };

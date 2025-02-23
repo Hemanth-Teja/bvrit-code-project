@@ -213,3 +213,34 @@ tbody tr:hover {
     color: #6c757d;
   }
   /* Leaderboard.css */
+/* Leaderboard.css */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-button {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 8px 16px;
+    margin: 0 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination-button:hover:not(:disabled) {
+    background-color: #ddd;
+  }
+  
+  .pagination-button.active {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
+  }
+  
+  .pagination-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }

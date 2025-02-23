@@ -9,6 +9,9 @@ import jwt from "jsonwebtoken";
 // controllers/questionController.js
 export const getUserData = async (req, res) => {
   try {
+    const { page = 1, limit = 10 } = req.query; // Default: page 1, limit 10
+    const skip = (page - 1) * limit;
+
     const colleges = await College.find();
 
     if (!colleges || colleges.length === 0) {
@@ -34,7 +37,24 @@ export const getUserData = async (req, res) => {
       });
     });
 
-    res.status(200).json(studentsData);
+    // Rank students globally
+    const rankedStudents = studentsData
+      .map((student) => ({
+        ...student,
+        totalSolved: student.aptitude_solved + student.dsa_solved,
+      }))
+      .sort((a, b) => b.totalSolved - a.totalSolved)
+      .map((student, index) => ({ ...student, rank: index + 1 }));
+
+    // Paginate the ranked data
+    const paginatedData = rankedStudents.slice(skip, skip + limit);
+    const totalStudents = rankedStudents.length;
+
+    res.status(200).json({
+      students: paginatedData,
+      totalPages: Math.ceil(totalStudents / limit),
+      currentPage: parseInt(page),
+    });
   } catch (error) {
     console.error("Error fetching students:", error);
     res.status(500).json({ message: "Failed to retrieve students", error: error.message });
