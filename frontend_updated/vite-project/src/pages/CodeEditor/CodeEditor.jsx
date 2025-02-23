@@ -53,20 +53,7 @@ int main() {
     const fetchProblem = async () => {
       try {
         console.log("Fetching problem details for ID:", id);
-        const response = {
-          data: {
-            id: 2,
-            title: "Implement a function to sum two numbers.",
-            description: "Given two integers, return their sum.",
-            category: "Mathematics",
-            difficulty: "Easy",
-            exampleInput: "3\n5",
-            exampleOutput: "8",
-            submitInput: "10\n15",
-            submitOutput: "25",
-            explanation: "Simply add the two numbers and return the result.",
-          },
-        };
+        const response=await axios.get(`http://localhost:5000/api/update/dsa/question/${id}`)
         setProblem(response.data);
         setCode(getDefaultCode(language));
       } catch (error) {

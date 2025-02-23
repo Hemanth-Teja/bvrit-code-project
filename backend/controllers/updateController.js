@@ -121,7 +121,8 @@ export const addAptitudeQuestion = async (req, res) => {
 export const deleteDSAQuestion = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedQuestion = await Question.findOneAndDelete({ id, category: "DSA" });
+    const deletedQuestion  = await Question.findOneAndDelete({ id: id.toString()} );
+
 
     if (!deletedQuestion) {
       return res.status(404).json({ message: "DSA question not found!" });
@@ -151,24 +152,8 @@ export const deleteAptitudeQuestion = async (req, res) => {
 
 export const getDSAQuestions = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    const totalQuestions = await Question.countDocuments();
-    const totalPages = Math.ceil(totalQuestions / limit);
-    
-    const questions = await Question.find()
-      .sort({ id: 1 })
-      .skip(skip)
-      .limit(limit);
-
-    res.status(200).json({
-      questions,
-      currentPage: page,
-      totalPages,
-      totalQuestions
-    });
+    const questions = await Question.find().sort({ id: 1 });
+    res.status(200).json(questions);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -176,24 +161,23 @@ export const getDSAQuestions = async (req, res) => {
 
 export const getAptitudeQuestions = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+    const questions = await Apptitude.find().sort({ id: 1 });
+    res.status(200).json(questions);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+export const getDSAQuestionById = async (req, res) => {
+  const { id } = req.params;
 
-    const totalQuestions = await Apptitude.countDocuments();
-    const totalPages = Math.ceil(totalQuestions / limit);
-    
-    const questions = await Apptitude.find()
-      .sort({ id: 1 })
-      .skip(skip)
-      .limit(limit);
+  try {
+    const question = await Question.findOne({ id }); // Fixed query to return a single object
 
-    res.status(200).json({
-      questions,
-      currentPage: page,
-      totalPages,
-      totalQuestions
-    });
+    if (!question) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.status(200).json(question);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
