@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ApptitudeComponent.css";
+import axios from "axios";
 
-function AptitudeComponent() {
+const ApptitudeComponent=() => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [question, setQuestion] = useState(null);
@@ -14,59 +15,45 @@ function AptitudeComponent() {
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/update/aptitude/questions`);
-        const questions = await response.json();
-        const currentQuestion = questions.find(q => q.id === id);
+        const response = await axios.get(
+          `http://localhost:5000/api/update/aptitude/question/${id}`
+        );
         
-        if (currentQuestion) {
-          // Convert string of options to array if needed
-          const optionsArray = Array.isArray(currentQuestion.options) 
-            ? currentQuestion.options 
-            : currentQuestion.options.split(',').map(opt => opt.trim());
+        // Convert options to array if stored as string
+        const optionsArray = Array.isArray(response.data.options) 
+          ? response.data.options 
+          : response.data.options.split(',').map(opt => opt.trim());
 
-          setQuestion({
-            ...currentQuestion,
-            options: optionsArray
-          });
-        } else {
-          setError("Question not found");
-        }
+        setQuestion({
+          ...response.data,
+          options: optionsArray
+        });
       } catch (err) {
-        setError("Failed to fetch question");
+        setError(err.response?.data?.message || "Failed to fetch question");
         console.error("Error fetching question:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchQuestion();
-    }
+    fetchQuestion();
   }, [id]);
 
-  const handleSubmit = async () => {
-    if (selectedOption === question.correctAnswer) {
-      setIsCorrect(true);
-      try {
-        // Update solved status in backend
-        await fetch('http://localhost:5000/api/questions/aptitude', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem('token') // Make sure you have the token
-          },
-          body: JSON.stringify({ problemId: id })
-        });
+  const handleSubmit = () => {
+    if (!selectedOption) return;
+    
+    const correct = selectedOption === question.correctAnswer;
+    setIsCorrect(correct);
 
-        // Navigate after successful submission
-        setTimeout(() => {
-          navigate("/practice");
-        }, 1500);
-      } catch (error) {
-        console.error("Error updating solved status:", error);
-      }
-    } else {
-      setIsCorrect(false);
+    if (correct) {
+      // Update solved status in backend
+      axios.post('http://localhost:5000/api/questions/aptitude', { problemId: id }, {
+        headers: { Authorization: localStorage.getItem('token') }
+      })
+      .then(() => {
+        setTimeout(() => navigate("/practice"), 1500);
+      })
+      .catch(console.error);
     }
   };
 
@@ -152,4 +139,4 @@ function AptitudeComponent() {
   );
 }
 
-export default AptitudeComponent;
+export default ApptitudeComponent;

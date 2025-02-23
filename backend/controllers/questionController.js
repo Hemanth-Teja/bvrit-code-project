@@ -6,36 +6,38 @@ import jwt from "jsonwebtoken";
 
 
 
+// controllers/questionController.js
 export const getUserData = async (req, res) => {
   try {
-      const colleges = await College.find();
+    const colleges = await College.find();
 
-      if (!colleges || colleges.length === 0) {
-          return res.status(404).json({ message: "No students found" });
-      }
+    if (!colleges || colleges.length === 0) {
+      return res.status(404).json({ message: "No students found" });
+    }
 
-      let studentsData = [];
+    let studentsData = [];
 
-      colleges.forEach((college) => {
-          college.branches.forEach((branchData, branch) => {
-              branchData.years.forEach((yearData, year) => {
-                  yearData.students.forEach((student) => {
-                      studentsData.push({
-                          name: student.username,
-                          id: student.id,
-                          branch: branch,
-                          aptitude_solved: student.aptitude_solved,
-                          dsa_solved: student.dsa_solved
-                      });
-                  });
-              });
+    colleges.forEach((college) => {
+      college.branches.forEach((branchData, branch) => {
+        branchData.years.forEach((yearData, year) => {
+          yearData.students.forEach((student) => {
+            studentsData.push({
+              name: student.username,
+              id: student.id,
+              branch: branch,
+              year: year,
+              aptitude_solved: student.aptitude_solved?.length || 0,
+              dsa_solved: student.dsa_solved?.length || 0,
+            });
           });
+        });
       });
+    });
 
-      res.status(200).json(studentsData);
+    res.status(200).json(studentsData);
   } catch (error) {
-      console.error("Error fetching students:", error);
-      res.status(500).json({ message: "Failed to retrieve students", error: error.message });
+    console.error("Error fetching students:", error);
+    res.status(500).json({ message: "Failed to retrieve students", error: error.message });
   }
 };
 export const getBranchData = async (req, res) => {

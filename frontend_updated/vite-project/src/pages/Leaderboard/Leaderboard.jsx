@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Leaderboard.css";
-
-const dummyStudents = [
-  
-  { id: "101", name: "Alice", branch: "CSE", year: "2022", aptitude_solved: 30, dsa_solved: 50 },
-  { id: "102", name: "Bob", branch: "IT", year: "2023", aptitude_solved: 25, dsa_solved: 40 },
-  { id: "103", name: "Charlie", branch: "AIDS", year: "2022", aptitude_solved: 20, dsa_solved: 35 },
-  { id: "104", name: "David", branch: "AIML", year: "2024", aptitude_solved: 40, dsa_solved: 55 },
-  { id: "105", name: "Eve", branch: "CSD", year: "2023", aptitude_solved: 10, dsa_solved: 25 },
-  { id: "106", name: "Frank", branch: "CSE", year: "2022", aptitude_solved: 35, dsa_solved: 45 },
-  { id: "107", name: "Grace", branch: "IT", year: "2024", aptitude_solved: 15, dsa_solved: 30 },
-];
+import axios from "axios";
 
 const Leaderboard = () => {
   const [selectedBranch, setSelectedBranch] = useState("All");
   const [selectedYear, setSelectedYear] = useState("All");
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/questions/userdata");
+        setStudents(response.data);
+        setError(null);
+      } catch (err) {
+        setError("Failed to fetch leaderboard data");
+        console.error("Error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const rankStudents = (students) => {
     return students
@@ -34,7 +44,7 @@ const Leaderboard = () => {
     setSelectedYear(event.target.value);
   };
 
-  let filteredStudents = dummyStudents;
+  let filteredStudents = students;
 
   if (selectedBranch !== "All") {
     filteredStudents = filteredStudents.filter((student) => student.branch === selectedBranch);
@@ -45,6 +55,24 @@ const Leaderboard = () => {
   }
 
   const rankedStudents = rankStudents(filteredStudents);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+        <p>Loading leaderboard...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <i className="fas fa-exclamation-circle"></i>
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="leaderboard-container">
@@ -100,24 +128,9 @@ const Leaderboard = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" style={{ textAlign: 'center' }}>No data available</td>
-              </tr>
-            )}
-            {rankedStudents.length > 0 ? (
-              rankedStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.rank}</td>
-                  <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.branch}</td>
-                  <td>{student.year}</td>
-                  <td>{student.aptitude_solved}</td>
-                  <td>{student.dsa_solved}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" style={{ textAlign: 'center' }}>No data available</td>
+                <td colSpan="7" className="no-data">
+                  No students found matching the criteria
+                </td>
               </tr>
             )}
           </tbody>

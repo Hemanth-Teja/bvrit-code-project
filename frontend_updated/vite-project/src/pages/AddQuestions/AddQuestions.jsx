@@ -59,7 +59,7 @@ function AddQuestions() {
       toast.warning('Please enter a question ID');
       return;
     }
-
+  
     try {
       const endpoint = questionType === 'dsa' 
         ? `http://localhost:5000/api/update/dsa/delete/${deleteId}` 
@@ -67,10 +67,10 @@ function AddQuestions() {
       
       const response = await fetch(endpoint, { method: 'DELETE' });
       const data = await response.json();
-
+  
       if (response.ok) {
         toast.success('Question deleted successfully!');
-        setDeleteId('');
+        setDeleteId(''); // Clear the input field after successful deletion
       } else {
         toast.error(data.message || 'Failed to delete question');
       }
@@ -148,19 +148,19 @@ function AddQuestions() {
       </form>
 
       <div className="delete-section">
-        <h3>Delete Question</h3>
-        <div className="delete-section-input">
-        <input 
-          type="text" 
-          placeholder="Enter Question ID" 
-          value={deleteId} 
-          onChange={(e) => setDeleteId(e.target.value)} 
-        />
-        <button type="button" className="delete-button" onClick={handleDeleteQuestion}>
-          <i className="fas fa-trash-alt"></i> Delete Question
-        </button>
-        </div>
-      </div>
+  <h3>Delete Question</h3>
+  <div className="delete-section-input">
+    <input 
+      type="text" 
+      placeholder="Enter Question ID" 
+      value={deleteId} 
+      onChange={(e) => setDeleteId(e.target.value)} 
+    />
+    <button type="button" className="delete-button" onClick={handleDeleteQuestion}>
+      <i className="fas fa-trash-alt"></i> Delete Question
+    </button>
+  </div>
+</div>
     </div>
   );
 }

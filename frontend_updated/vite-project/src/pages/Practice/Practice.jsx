@@ -177,7 +177,7 @@ const Practice = () => {
                   onClick={() => {
                     const route = selectedSection === "DSA" 
                       ? `/compiler/${problem.id}` 
-                      : `/submission/${problem.id}`;
+                      : `/aptitude/question/${problem.id}`;  // Changed from /submission to /aptitude
                     navigate(route);
                   }}
                 >

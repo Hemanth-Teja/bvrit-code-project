@@ -6,7 +6,7 @@ import {
   deleteAptitudeQuestion,
   getDSAQuestions,
   getAptitudeQuestions,
-  getDSAQuestionById
+  getDSAQuestionById,getAptitudeQuestionById
 } from "../controllers/updateController.js";
 
 const router = express.Router();
@@ -24,8 +24,10 @@ router.post("/aptitude/add", addAptitudeQuestion);
 router.delete("/aptitude/delete/:id", deleteAptitudeQuestion);
 
 // New routes to fetch questions
+// In routes/updateRoutes.js
 router.get("/dsa/questions", getDSAQuestions);
 router.get("/dsa/question/:id", getDSAQuestionById);
 router.get("/aptitude/questions", getAptitudeQuestions);
+router.get("/aptitude/question/:id", getAptitudeQuestionById); // Add this line
 
 export default router;
