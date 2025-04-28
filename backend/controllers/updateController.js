@@ -137,7 +137,7 @@ export const deleteDSAQuestion = async (req, res) => {
 export const deleteAptitudeQuestion = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedQuestion = await Aptitude.findOneAndDelete({ id }); // ✅ Remove the category filter
+    const deletedQuestion = await Apptitude.findOneAndDelete({ id }); // ✅ Remove the category filter
 
     if (!deletedQuestion) {
       return res.status(404).json({ message: "Aptitude question not found!" });

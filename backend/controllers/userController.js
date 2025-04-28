@@ -39,7 +39,8 @@ export const registerUser = async (req, res) => {
 
 
         if (!college.branches.get(branch).years.get(year)) {
-            college.branches.get(branch).years.set(year, { students: [] });}
+            college.branches.get(branch).years.set(year, { students: [] });
+        }
 
         const yearStr = String(year);
         if (!college.branches.get(branch).years.get(yearStr)) {
@@ -60,24 +61,17 @@ export const registerUser = async (req, res) => {
         }
 
         const token = jwt.sign(
-
-        
             { userId: student.id, email: student.email, branch, year: yearStr },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
-
- let isAdmin=student.email==="22222222222222222@bvrit.ac.in"?true:false;
-
-
+        let isAdmin=student.email==="22222222222222222@bvrit.ac.in"?true:false;
         res.status(201).json({ 
             message: "Student added successfully", 
             student, 
             token ,
             isAdmin
         });
-
-
     } catch (error) {
         console.error("Error adding student:", error);
         res.status(500).json({ message: "Failed to add student", error: error.message });
