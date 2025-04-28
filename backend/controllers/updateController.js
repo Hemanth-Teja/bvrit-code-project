@@ -1,5 +1,5 @@
 import Question from "../models/questionModel.js";
-import Apptitude from "../models/aptitudeModel.js";
+import Aptitude from "../models/aptitudeModel.js"
 
 
 
@@ -80,7 +80,7 @@ export const addAptitudeQuestion = async (req, res) => {
       });
     }
 
-    const existingQuestion = await Apptitude.findOne({ id });
+    const existingQuestion = await Aptitude.findOne({ id });
     if (existingQuestion) {
       return res.status(400).json({ 
         message: "Aptitude Question with this ID already exists!" 
@@ -92,7 +92,7 @@ export const addAptitudeQuestion = async (req, res) => {
       ? options 
       : options.split(',').map(opt => opt.trim());
 
-    const newQuestion = new Apptitude({
+    const newQuestion = new Aptitude({
       id,
       title,
       category,
@@ -137,7 +137,7 @@ export const deleteDSAQuestion = async (req, res) => {
 export const deleteAptitudeQuestion = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedQuestion = await Apptitude.findOneAndDelete({ id }); // ✅ Remove the category filter
+    const deletedQuestion = await Aptitude.findOneAndDelete({ id }); // ✅ Remove the category filter
 
     if (!deletedQuestion) {
       return res.status(404).json({ message: "Aptitude question not found!" });
@@ -180,10 +180,10 @@ export const getAptitudeQuestions = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const totalQuestions = await Apptitude.countDocuments();
+    const totalQuestions = await Aptitude.countDocuments();
     const totalPages = Math.ceil(totalQuestions / limit);
     
-    const questions = await Apptitude.find()
+    const questions = await Aptitude.find()
       .sort({ id: 1 })
       .skip(skip)
       .limit(limit);
@@ -216,9 +216,9 @@ export const getDSAQuestionById = async (req, res) => {
 
 export const getAptitudeQuestionById = async (req, res) => {
   const { id } = req.params;
-
+  console.log("Received ID:", id); // Log the received ID
   try {
-    const question = await Apptitude.findOne({ id });
+    const question = await Aptitude.findOne({ id });
 
     if (!question) {
       return res.status(404).json({ message: "Question not found" });

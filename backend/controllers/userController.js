@@ -45,7 +45,6 @@ export const registerUser = async (req, res) => {
         const yearStr = String(year);
         if (!college.branches.get(branch).years.get(yearStr)) {
             college.branches.get(branch).years.set(yearStr, { students: [] });
-
         }
 
         // Hash password
@@ -65,12 +64,10 @@ export const registerUser = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
-        let isAdmin=student.email==="22222222222222222@bvrit.ac.in"?true:false;
         res.status(201).json({ 
             message: "Student added successfully", 
             student, 
             token ,
-            isAdmin
         });
     } catch (error) {
         console.error("Error adding student:", error);
@@ -130,7 +127,6 @@ export const loginUser = async (req, res) => {
         if (!process.env.JWT_SECRET) {
             return res.status(500).json({ message: "JWT_SECRET is missing in environment variables." });
         }
-        let isAdmin = foundStudent.email === "22222222222222222@bvrit.ac.in" ? true : false;
 
         const token = jwt.sign(
             { userId: foundStudent.id, email: foundStudent.email, branch: foundBranch, year: foundYear },
@@ -152,9 +148,9 @@ export const loginUser = async (req, res) => {
                 dsa_solved: foundStudent.dsa_solved,
                 labs: foundStudent.labs,
                 branch: foundBranch,
-                year: foundYear
-            },
-            isAdmin
+                year: foundYear,
+                isAdmin:foundStudent.isAdmin
+            }
         });
 
     } catch (error) {

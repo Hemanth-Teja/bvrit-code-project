@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import "./AddQuestions.css";
+import { useNavigate } from "react-router-dom";
 
 const dsaCategories = [
   "Arrays", "Linked List", "Stack", "Queue", "Recursion", "Sorting", 
@@ -15,6 +16,12 @@ const aptitudeCategories = [
 ];
 
 function AddQuestions() {
+  const navigate = useNavigate();
+  if(localStorage.getItem("isAdmin") !== "true"){
+    toast.error("You are not authorized to access this page.");
+    navigate("/home");
+  }
+
   const [questionType, setQuestionType] = useState("dsa");
   const [formData, setFormData] = useState({});
   const [deleteId, setDeleteId] = useState("");

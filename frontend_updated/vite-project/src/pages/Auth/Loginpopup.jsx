@@ -33,7 +33,7 @@ export default function Login({ token, setToken, isAdmin, setisAdmin }) {
             // Store token in localStorage
             localStorage.setItem("token", response.data.token);
             setToken(response.data.token);
-            setisAdmin(response.data.isAdmin);
+            localStorage.setItem("isAdmin",response.data.student.isAdmin);
             onSubmitSuccess();
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");

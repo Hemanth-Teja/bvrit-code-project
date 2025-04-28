@@ -15,9 +15,10 @@ const StudentSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   contact_no: { type: String, required: true },
   parent_contact_no: { type: String, required: true },
-  aptitude_solved: { type: [Number], required: false, default: [] },  // Changed to array
-  dsa_solved: { type: [Number], required: false, default: [] },       // Changed to array
-  labs: { type: LabSchema, default: {} }
+  aptitude_solved: { type: [String], required: false, default: [] },  // Changed to array
+  dsa_solved: { type: [String], required: false, default: [] },       // Changed to array
+  labs: { type: LabSchema, default: {} },
+  isAdmin:{type:Boolean,required:false,default:false}
 });
 
 const YearSchema = new mongoose.Schema({
