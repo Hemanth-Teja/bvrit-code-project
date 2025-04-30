@@ -18,7 +18,7 @@ export const registerUser = async (req, res) => {
         }
 
         // Check across all branches and years for existing email or ID
-        let isExistingStudent = false;
+        let isExistingStudent = false; 
         college.branches.forEach((branchData) => {
             branchData.years.forEach((yearData) => {
                 if (yearData.students.some(s => s.email === student.email || s.id === student.id)) {
