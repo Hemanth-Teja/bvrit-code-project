@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const apiUrl = import.meta.env.API_URL;
+
 import axios from "axios";
 import './Auth.css';
 
@@ -26,7 +26,7 @@ export default function Login({ token, setToken, isAdmin, setisAdmin }) {
             return;
         }
         try {
-            const response = await axios.post(`${apiUrl}/api/users/login`, {
+            const response = await axios.post("http://localhost:5000/api/users/login", {
                 email,
                 password
             });

@@ -2,37 +2,32 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
-const apiUrl = import.meta.env.API_URL;
 
 function Profile({ setToken, setisAdmin }) {
   const [userData, setUserData] = useState(null);
-  const [filter, setFilter] = useState("dsa");
+  const [filter, setFilter] = useState("all");
   const [dsaProblems, setDsaProblems] = useState([]);
-  const [aptitudeProblems, setAptitudeProblems] = useState([]);
+  const [aptitudeProblems,setAptitudeProblems]=useState([]); // State to store DSA problem details
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${apiUrl}/api/users/profile`, {
+        const response = await axios.get("http://localhost:5000/api/users/profile", {
           headers: { Authorization: token },
         });
         setUserData(response.data);
-
-        // Fetch latest 5 DSA problem details
+  
+        // Fetch DSA problem details
         if (response.data.user.dsa_solved.length > 0) {
-          const dsaProblemDetails = await fetchDsaProblemDetails(
-            response.data.user.dsa_solved.slice(-5) // Get the latest 5 solved problems
-          );
+          const dsaProblemDetails = await fetchDsaProblemDetails(response.data.user.dsa_solved);
           setDsaProblems(dsaProblemDetails);
         }
-
-        // Fetch latest 5 Aptitude problem details
+  
+        // Fetch Aptitude problem details
         if (response.data.user.aptitude_solved.length > 0) {
-          const aptitudeProblemDetails = await fetchAptitudeProblemDetails(
-            response.data.user.aptitude_solved.slice(-5) // Get the latest 5 solved problems
-          );
+          const aptitudeProblemDetails = await fetchAptitudeProblemDetails(response.data.user.aptitude_solved);
           setAptitudeProblems(aptitudeProblemDetails);
         }
       } catch (error) {
@@ -40,17 +35,18 @@ function Profile({ setToken, setisAdmin }) {
         handleLogout();
       }
     };
-
+  
     fetchUserData();
   }, []);
 
+  // Function to fetch DSA problem details
   const fetchDsaProblemDetails = async (problemIds) => {
     try {
       const token = localStorage.getItem("token");
       const problemDetails = await Promise.all(
         problemIds.map(async (id) => {
           const response = await axios.get(
-            `${apiUrl}/api/update/dsa/question/${id}`,
+            `http://localhost:5000/api/update/dsa/question/${id}`,
             { headers: { Authorization: token } }
           );
           return response.data;
@@ -70,17 +66,17 @@ function Profile({ setToken, setisAdmin }) {
         problemIds.map(async (id) => {
           try {
             const response = await axios.get(
-              `${apiUrl}/api/update/aptitude/question/${id}`,
+              `http://localhost:5000/api/update/aptitude/question/${id}`,
               { headers: { Authorization: token } }
             );
             return response.data;
           } catch (error) {
             console.error(`Error fetching aptitude problem with ID ${id}:`, error);
-            return null;
+            return null; // Return null for invalid problems
           }
         })
       );
-      return problemDetails.filter((prob) => prob !== null);
+      return problemDetails.filter((prob) => prob !== null); // Filter out null values
     } catch (error) {
       console.error("Error fetching aptitude problem details:", error);
       return [];
@@ -104,6 +100,8 @@ function Profile({ setToken, setisAdmin }) {
   }
 
   const { user: student } = userData;
+  const aptitudeProgress = ((student.aptitude_solved.length / 50) * 100).toFixed(1);
+  const dsaProgress = ((student.dsa_solved.length / 50) * 100).toFixed(1);
 
   return (
     <div className="profile-container">
@@ -111,6 +109,22 @@ function Profile({ setToken, setisAdmin }) {
       <div className="profile-left">
         <div className="profile-avatar-large">
           <span id="profile-letter-large">{student.username[0].toUpperCase()}</span>
+        </div>
+
+        <div className="progress-section">
+          <div className="circle-box">
+            <h3>Aptitude Progress</h3>
+            <div className="progress-circle" style={{ "--progress": `${aptitudeProgress}%` }}>
+              <div className="progress-value">{aptitudeProgress}%</div>
+            </div>
+          </div>
+
+          <div className="circle-box">
+            <h3>DSA Progress</h3>
+            <div className="progress-circle" style={{ "--progress": `${dsaProgress}%` }}>
+              <div className="progress-value">{dsaProgress}%</div>
+            </div>
+          </div>
         </div>
 
         {/* Logout Button */}
@@ -156,44 +170,54 @@ function Profile({ setToken, setisAdmin }) {
           <div className="section-header">
             <h3>Solved Problems</h3>
             <div className="filter-buttons">
+              <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>
+                All
+              </button>
               <button
                 className={filter === "aptitude" ? "active" : ""}
                 onClick={() => setFilter("aptitude")}
               >
                 Aptitude
               </button>
-              <button
-                className={filter === "dsa" ? "active" : ""}
-                onClick={() => setFilter("dsa")}
-              >
+              <button className={filter === "dsa" ? "active" : ""} onClick={() => setFilter("dsa")}>
                 DSA
               </button>
             </div>
           </div>
 
           <div className="problems-list">
-            {filter === "aptitude" && (
-              <div className="problem-section">
-                {aptitudeProblems.length > 0 ? (
-                  aptitudeProblems.map((prob) => (
-                    <div key={prob.id} className="problem-card">
-                      <div className="problem-info">
-                        <span className="problem-id">#{prob.id}</span>
-                        <span className="problem-title">{prob.title}</span>
-                      </div>
-                      <span className={`difficulty-badge ${prob.difficulty.toLowerCase()}`}>
-                        {prob.difficulty}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <p>No aptitude problems solved yet.</p>
-                )}
-              </div>
-            )}
+          {(filter === "all" || filter === "aptitude") && (
+  <div className="problem-section">
+    {filter !== "all" && <h4>Aptitude Problems</h4>}
+    {aptitudeProblems.length > 0 ? (
+      aptitudeProblems.map((prob) => (
+        <div key={prob.id} className="problem-card">
+          <div className="problem-info">
+            <span className="problem-id">#{prob.id}</span>
+            <span className="problem-title">{prob.title}</span>
+          </div>
+          <span className={`difficulty-badge ${prob.difficulty.toLowerCase()}`}>
+            {prob.difficulty}
+          </span>
+        </div>
+      ))
+    ) : (
+      filter === "all" &&
+      student.aptitude_solved.length === 0 &&
+      student.dsa_solved.length === 0 && (
+        <img
+          src="https://i.ibb.co/LXxhN10V/freepik-cartoon-style-a-coding-bug-shaped-like-a-sad-pixel-94566.jpg"
+          alt="No problems solved"
+          className="no-questions-solved"
+        />
+      )
+    )}
+  </div>
+)}
 
-            {filter === "dsa" && (
+            {(filter === "all" || filter === "dsa") && (
               <div className="problem-section">
+                {filter !== "all" && <h4>DSA Problems</h4>}
                 {dsaProblems.length > 0 ? (
                   dsaProblems.map((prob) => (
                     <div key={prob.id} className="problem-card">

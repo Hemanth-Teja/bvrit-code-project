@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./Practice.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const apiUrl = import.meta.env.API_URL;
 
 const dsaCategories = [
   "Arrays", "Linked List", "Stack", "Queue", "Recursion", "Sorting", "Graphs",
@@ -30,8 +29,8 @@ const Practice = () => {
       try {
         setLoading(true);
         const endpoint = selectedSection === "DSA" 
-          ? `${apiUrl}/api/update/dsa/questions`
-          : `${apiUrl}/api/update/aptitude/questions`;
+          ? "http://localhost:5000/api/update/dsa/questions"
+          : "http://localhost:5000/api/update/aptitude/questions";
         
         const response = await axios.get(`${endpoint}?page=${currentPage}&limit=${itemsPerPage}`);
         setProblems(response.data.questions);

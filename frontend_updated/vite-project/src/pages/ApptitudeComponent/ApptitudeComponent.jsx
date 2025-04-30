@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ApptitudeComponent.css";
 import axios from "axios";
-const apiUrl = import.meta.env.API_URL;
 
 const ApptitudeComponent = () => {
   const { id } = useParams();
@@ -17,7 +16,7 @@ const ApptitudeComponent = () => {
     const fetchQuestion = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/api/update/aptitude/question/${id}`
+          `http://localhost:5000/api/update/aptitude/question/${id}`
         );
 
         // Convert options to array if stored as string
@@ -50,7 +49,7 @@ const ApptitudeComponent = () => {
       // Update solved status in backend
       axios
         .post(
-          `${apiUrl}/api/questions/aptitude`,
+          "http://localhost:5000/api/questions/aptitude",
           { problemId: id },
           { headers: { Authorization: localStorage.getItem("token") } }
         )

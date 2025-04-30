@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Leaderboard.css";
 import axios from "axios";
-const apiUrl = import.meta.env.API_URL;
 
 const Leaderboard = () => {
   const [selectedBranch, setSelectedBranch] = useState("All");
@@ -18,7 +17,7 @@ const Leaderboard = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${apiUrl}/api/questions/userdata?page=${currentPage}&limit=${itemsPerPage}`
+          `http://localhost:5000/api/questions/userdata?page=${currentPage}&limit=${itemsPerPage}`
         );
         setStudents(response.data.students);
         setTotalPages(response.data.totalPages);
