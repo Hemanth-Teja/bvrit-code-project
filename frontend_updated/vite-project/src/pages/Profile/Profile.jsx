@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
+const apiUrl = import.meta.env.API_URL;
 
 function Profile({ setToken, setisAdmin }) {
   const [userData, setUserData] = useState(null);
@@ -14,7 +15,7 @@ function Profile({ setToken, setisAdmin }) {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/users/profile", {
+        const response = await axios.get(`${apiUrl}/api/users/profile`, {
           headers: { Authorization: token },
         });
         setUserData(response.data);
@@ -49,7 +50,7 @@ function Profile({ setToken, setisAdmin }) {
       const problemDetails = await Promise.all(
         problemIds.map(async (id) => {
           const response = await axios.get(
-            `http://localhost:5000/api/update/dsa/question/${id}`,
+            `${apiUrl}/api/update/dsa/question/${id}`,
             { headers: { Authorization: token } }
           );
           return response.data;
@@ -69,7 +70,7 @@ function Profile({ setToken, setisAdmin }) {
         problemIds.map(async (id) => {
           try {
             const response = await axios.get(
-              `http://localhost:5000/api/update/aptitude/question/${id}`,
+              `${apiUrl}/api/update/aptitude/question/${id}`,
               { headers: { Authorization: token } }
             );
             return response.data;

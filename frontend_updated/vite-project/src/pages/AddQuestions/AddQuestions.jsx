@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import "./AddQuestions.css";
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.API_URL;
 
 const dsaCategories = [
   "Arrays", "Linked List", "Stack", "Queue", "Recursion", "Sorting", 
@@ -36,8 +37,8 @@ function AddQuestions() {
     setIsSubmitting(true);
     try {
       const endpoint = questionType === 'dsa' 
-        ? 'http://localhost:5000/api/update/dsa/add' 
-        : 'http://localhost:5000/api/update/aptitude/add';
+        ? `${apiUrl}/api/update/dsa/add`
+        : `${apiUrl}/api/update/aptitude/add`;
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -69,8 +70,8 @@ function AddQuestions() {
   
     try {
       const endpoint = questionType === 'dsa' 
-        ? `http://localhost:5000/api/update/dsa/delete/${deleteId}` 
-        : `http://localhost:5000/api/update/aptitude/delete/${deleteId}`;
+        ? `${apiUrl}/api/update/dsa/delete/${deleteId}` 
+        : `${apiUrl}/api/update/aptitude/delete/${deleteId}`;
       
       const response = await fetch(endpoint, { method: 'DELETE' });
       const data = await response.json();

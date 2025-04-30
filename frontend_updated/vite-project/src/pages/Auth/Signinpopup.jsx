@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
+const apiUrl = import.meta.env.API_URL;
 
 export default function SignIn({ token, setToken, isAdmin, setisAdmin }) {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function SignIn({ token, setToken, isAdmin, setisAdmin }) {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", {
+      const response = await axios.post(`${apiUrl}/api/users/register`, {
         ...formData,
         year: String(formData.year),
       });

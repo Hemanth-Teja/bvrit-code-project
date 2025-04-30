@@ -7,6 +7,7 @@ import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-dracula";
 import "./CodeEditor.css";
+const apiUrl = import.meta.env.API_URL;
 
 const CodeEditor = () => {
   const { id } = useParams();
@@ -55,7 +56,7 @@ int main() {
     const fetchProblem = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/update/dsa/question/${id}`
+          `${apiUrl}/api/update/dsa/question/${id}`
         );
         setProblem(response.data);
         console.log(response.data);
@@ -100,7 +101,7 @@ int main() {
           // Call the backend to update dsa_solved
           const token = localStorage.getItem("token");
           await axios.post(
-            "http://localhost:5000/api/questions/dsa",
+            `${apiUrl}/api/questions/dsa`,
             { problemId: problem.id, },
             { headers: { Authorization: token } }
           );
