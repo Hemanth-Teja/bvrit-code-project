@@ -9,8 +9,7 @@ import { FaUser } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const isAdmin = localStorage.getItem("isAdmin"); // Change dynamically based on authentication
-
+  const isAdmin = localStorage.getItem("isAdmin") === "true"; // Convert to boolean
 
   return (
     <>
