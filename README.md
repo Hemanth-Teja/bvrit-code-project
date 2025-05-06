@@ -1,5 +1,3 @@
----
-
 # BVRIT Code Project
 
 A comprehensive coding platform designed for BVRIT students to practice Data Structures and Algorithms (DSA) and Aptitude questions.
@@ -73,5 +71,3 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
